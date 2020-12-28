@@ -1,4 +1,4 @@
-package com.study.leetcode101_200;
+package com.study.leetcode101_200.leetcode101_125;
 
 import java.util.LinkedList;
 import java.util.Queue;
