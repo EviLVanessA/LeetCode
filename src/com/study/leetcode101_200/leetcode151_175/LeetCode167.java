@@ -1,4 +1,4 @@
-package com.study.leetcode101_200;
+package com.study.leetcode101_200.leetcode151_175;
 
 /**
  * 对撞指针(双索引技术)  125 344 245 11

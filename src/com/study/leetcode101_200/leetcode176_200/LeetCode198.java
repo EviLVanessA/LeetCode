@@ -1,4 +1,4 @@
-package com.study.leetcode101_200;
+package com.study.leetcode101_200.leetcode176_200;
 
 /**
  *     你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷
