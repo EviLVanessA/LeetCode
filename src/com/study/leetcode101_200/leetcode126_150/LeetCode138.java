@@ -1,5 +1,7 @@
 package com.study.leetcode101_200.leetcode126_150;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import java.util.HashMap;
 
 /**
@@ -37,5 +39,32 @@ public class LeetCode138 {
         node.next = copyRandomList(head.next);
         node.random = copyRandomList(head.random);
         return node;
+    }
+    public Node copyRandomList2(Node head) {
+        if (head == null){
+            return null;
+        }
+        Node pre = head;
+        while (pre != null){
+            Node node = new Node(pre.val);
+            node.next = pre.next;
+            pre.next = node;
+            pre = node.next;
+        }
+        pre = head;
+        while (pre != null){
+            pre.next.random = (pre.random != null) ? pre.random.next : null;
+            pre = pre.next.next;
+        }
+        Node ptrOldList = head;
+        Node ptrNewList = head.next;
+        Node headOld = head.next;
+        while (ptrOldList != null) {
+            ptrOldList.next = ptrOldList.next.next;
+            ptrNewList.next = (ptrNewList.next != null) ? ptrNewList.next.next : null;
+            ptrOldList = ptrOldList.next;
+            ptrNewList = ptrNewList.next;
+        }
+        return headOld;
     }
 }
