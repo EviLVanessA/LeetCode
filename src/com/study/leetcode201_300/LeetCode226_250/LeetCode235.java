@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode226_250;
 
 /**
  * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。

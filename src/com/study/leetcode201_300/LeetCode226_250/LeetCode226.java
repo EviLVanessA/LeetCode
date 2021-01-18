@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode226_250;
 
 /**
  * 翻转二叉树

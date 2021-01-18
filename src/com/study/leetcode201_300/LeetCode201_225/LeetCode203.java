@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode201_225;
 
 /**
  * 删除链表中等于给定值val的所有节点 82 21

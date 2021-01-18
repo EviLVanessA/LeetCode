@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode226_250;
 
 /**
  * 删除链表中的节点(无链表头)

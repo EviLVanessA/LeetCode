@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode201_225;
 
 import java.util.HashSet;
 import java.util.Set;

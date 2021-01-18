@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode276_300;
 
 import javax.xml.soap.Node;
 import java.util.LinkedList;

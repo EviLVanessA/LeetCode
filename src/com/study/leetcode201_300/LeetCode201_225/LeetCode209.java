@@ -1,4 +1,4 @@
-package com.study.leetcode201_300;
+package com.study.leetcode201_300.LeetCode201_225;
 
 /**
  * 滑动窗口（两个指针）
