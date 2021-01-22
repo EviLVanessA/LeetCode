@@ -1,8 +1,6 @@
 package com.study.leetcode401_500;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 给定一个字符串s和一个非空字符串p，找到s中所有是p的字母异位词的子串，返回这些子串的起始索引。
@@ -24,7 +22,7 @@ public class LeetCode438 {
         int[] window = new int[26];
         // 先将 arrP 中的元素保存到 needs 数组中
         for (char c : arrP) {
-            needs[c - 'a'] ++;
+            needs[c - 'a']++;
         }
         // 定义滑动窗口的两端
         int left = 0;
@@ -35,17 +33,53 @@ public class LeetCode438 {
             int curR = arrS[right] - 'a';
             right++;
             // 将右窗口当前访问到的元素 curR 个数加 1
-            window[curR] ++;
+            window[curR]++;
             // 当 window 数组中 curR 比 needs 数组中对应元素的个数要多的时候就该移动左窗口指针
             while (window[curR] > needs[curR]) {
                 int curL = arrS[left] - 'a';
                 left++;
                 // 将左窗口当前访问到的元素 curL 个数减 1
-                window[curL] --;
+                window[curL]--;
             }
             // 这里将所有符合要求的左窗口索引放入到了接收结果的 List 中
             if (right - left == arrP.length) {
                 ans.add(left);
+            }
+        }
+        return ans;
+    }
+
+    public List<Integer> findAnagrams2(String s, String p) {
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> window = new HashMap<>();
+        char[] s1 = s.toCharArray();
+        char[] t = p.toCharArray();
+        List<Integer> ans = new ArrayList<>();
+        int left = 0, right = 0, valid = 0;
+        for (char c : t) {
+            need.put(c, need.getOrDefault(c, 0) + 1);
+        }
+        while (right < s1.length) {
+            char c = s1[right];
+            right++;
+            if (need.containsKey(c)) {
+                window.put(c, window.getOrDefault(c, 0) + 1);
+                if (need.get(c).equals(window.get(c))) {
+                    valid++;
+                }
+            }
+            if (right - left == t.length) {
+                if (valid == need.size()) {
+                    ans.add(left);
+                }
+                char d = s1[left];
+                left++;
+                if (need.containsKey(d)) {
+                    if (need.get(d).equals(window.get(d))) {
+                        valid--;
+                    }
+                    window.put(d, window.get(d) - 1);
+                }
             }
         }
         return ans;
