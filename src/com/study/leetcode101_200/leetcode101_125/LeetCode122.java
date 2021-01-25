@@ -10,7 +10,7 @@ public class LeetCode122 {
         int max = 0;
         int total = 0;
         for (int i = 1; i < prices.length; i++) {
-            if (prices[i] < prices[i-1]) {
+            if (prices[i] < prices[i - 1]) {
                 min = prices[i];
                 total = total + max;
                 max = 0;
@@ -24,6 +24,7 @@ public class LeetCode122 {
 
     /**
      * 贪心算法
+     *
      * @param prices
      * @return
      */
@@ -38,6 +39,7 @@ public class LeetCode122 {
 
     /**
      * 动态规划
+     *
      * @param prices
      * @return
      */
@@ -52,7 +54,25 @@ public class LeetCode122 {
         }
         return dp[n - 1][0];
     }
+
+    /**
+     * 动态规划优化空间复杂度
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit4(int[] prices) {
+        int dp0 = 0;
+        int dp1 = Integer.MIN_VALUE;
+        for (int price : prices) {
+            int temp = dp0;
+            dp0 = Math.max(dp0, dp1 + price);
+            dp1 = Math.max(dp1, temp - price);
+        }
+        return dp0;
+    }
+
     public static void main(String[] args) {
-        System.out.println(new LeetCode122().maxProfit(new int[]{7,1,5,3,6,4}));
+        System.out.println(new LeetCode122().maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
     }
 }
