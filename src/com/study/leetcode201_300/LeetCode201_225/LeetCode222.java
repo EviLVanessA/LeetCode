@@ -50,7 +50,6 @@ public class LeetCode222 {
         queue.offer(root);
         while (!queue.isEmpty()) {
             int curSize = queue.size();
-            List<Integer> temp = new ArrayList<>();
             for (int i = 0; i < curSize; i++) {
                 TreeNode node = queue.poll();
                 if (node.left != null) {
