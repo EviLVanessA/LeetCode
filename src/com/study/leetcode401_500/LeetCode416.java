@@ -8,20 +8,22 @@ import javax.print.attribute.standard.NumberUp;
  * 注意:
  * 每个数组中的元素不会超过 100
  * 数组的大小不会超过 200
- *
+ * <p>
  * 示例 1:
  * 输入: [1, 5, 11, 5]
  * 输出: true
  * 解释: 数组可以分割成 [1, 5, 5] 和 [11].
- *
- *
+ * <p>
+ * <p>
  * 相关问题 322 377 474 139 494
+ *
  * @author jianghui
  * @date 2020-09-19  15:55
  **/
 public class LeetCode416 {
     /**
      * 记忆搜索 自顶向下进行
+     *
      * @param nums
      * @return
      */
@@ -30,43 +32,45 @@ public class LeetCode416 {
         for (int num : nums) {
             sum += num;
         }
-        if (sum % 2 != 0){
+        if (sum % 2 != 0) {
             return false;
         }
         sum = sum / 2;
 
         //memory[i][c] 表示使用索引为[0...i]的这些元素，是否可以完全填充一个容量为c的背包
         //0未计算 1可以填充 2不可以填充
-        int[][] memory = new int[nums.length][sum+1];
+        int[][] memory = new int[nums.length][sum + 1];
 
-        return tryPartition(nums,nums.length-1,sum,memory);
+        return tryPartition(nums, nums.length - 1, sum, memory);
     }
 
     /**
      * 使用nums[0...index],是否可以完全填充一个容量为sum的背包
+     *
      * @param nums
      * @param index
      * @param c
      * @return
      */
-    private boolean tryPartition(int[] nums,int index,int c,int[][] memory){
-        if (c == 0){
+    private boolean tryPartition(int[] nums, int index, int c, int[][] memory) {
+        if (c == 0) {
             return true;
         }
-        if (c < 0 || index < 0){
+        if (c < 0 || index < 0) {
             return false;
         }
 
-        if (memory[index][c] != 0){
+        if (memory[index][c] != 0) {
             return memory[index][c] == 1;
         }
-        memory[index][c] = tryPartition(nums,index-1,c,memory) ||
-                        tryPartition(nums,index-1,c-nums[index],memory) ? 1 : 2;
+        memory[index][c] = tryPartition(nums, index - 1, c, memory) ||
+                tryPartition(nums, index - 1, c - nums[index], memory) ? 1 : 2;
         return memory[index][c] == 1;
     }
 
     /**
-     * 动态规划 自底向上
+     * 动态规划 自底向上 + 空间压缩
+     *
      * @param nums
      * @return
      */
@@ -75,25 +79,57 @@ public class LeetCode416 {
         for (int num : nums) {
             sum += num;
         }
-        if (sum % 2 != 0){
+        if (sum % 2 != 0) {
             return false;
         }
         sum = sum / 2;
         int n = nums.length;
-        boolean[] memory = new boolean[sum+1];
+        boolean[] memory = new boolean[sum + 1];
         for (int i = 0; i <= sum; i++) {
             memory[i] = nums[0] == i;
         }
         for (int i = 1; i < n; i++) {
             for (int j = sum; j >= nums[i]; j--) {
-                memory[j] = memory[j] || memory[j-nums[i]];
+                memory[j] = memory[j] || memory[j - nums[i]];
             }
         }
         return memory[sum];
     }
 
+    /**
+     * 动态规划
+     * @param nums
+     * @return
+     */
+    public boolean canPartition3(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        sum = sum / 2;
+        //行表示物品价值 列表示 背包容量
+        boolean[][] dp = new boolean[nums.length][sum + 1];
+        for (int i = 0; i <= sum; i++) {
+            dp[0][i] = i == nums[0];
+        }
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j <= sum; j++) {
+                //不装该物品
+                dp[i][j] = dp[i - 1][j];
+                if (j >= nums[i]) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i]];
+                }
+            }
+        }
+        return dp[nums.length - 1][sum];
+    }
+
+
     public static void main(String[] args) {
-        int[] nums = {1,2,5,2};
+        int[] nums = {1, 2, 5, 2};
         System.out.println(new LeetCode416().canPartition2(nums));
     }
 }

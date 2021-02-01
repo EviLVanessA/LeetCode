@@ -1,4 +1,4 @@
-package com.study.LeetCode700_800;
+package com.study.LeetCode701_800;
 
 import java.util.*;
 
