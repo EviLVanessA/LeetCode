@@ -1,6 +1,7 @@
 package com.study.LeetCode601_700;
 
 /**
+ * 寻找最大树的第二小元素
  * @author jianghui
  * @date 2021-02-20 11:22
  */
