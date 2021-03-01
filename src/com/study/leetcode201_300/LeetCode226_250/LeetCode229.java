@@ -12,6 +12,7 @@ import java.util.Map;
  * @date 2021-02-25 16:30
  */
 public class LeetCode229 {
+
     /**
      * HashMap法
      *
