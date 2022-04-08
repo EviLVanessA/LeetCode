@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class LeetCode260 {
+    public static void main(String[] args) {
+        int x = 12;
+        System.out.println(x & (-x));
+    }
     /**
      * 常规哈希表
      *
@@ -38,7 +42,7 @@ public class LeetCode260 {
         for (int num : nums) {
             xorsum ^= num;
         }
-        int lsb = (xorsum == Integer.MAX_VALUE ? xorsum : xorsum & (-xorsum));
+        int lsb = (xorsum == Integer.MIN_VALUE ? xorsum : xorsum & (-xorsum));
         int num1 = 0, num2 = 0;
         for (int num : nums) {
             if ((num & lsb) != 0) {
