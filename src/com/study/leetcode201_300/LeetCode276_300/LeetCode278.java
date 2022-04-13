@@ -15,6 +15,6 @@ public class LeetCode278 {
     }
 
     private boolean isBadVersion(int mid) {
-        return mid == 1;
+        return mid > 5;
     }
 }
