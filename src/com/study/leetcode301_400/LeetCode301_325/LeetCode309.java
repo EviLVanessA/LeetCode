@@ -1,4 +1,4 @@
-package com.study.leetcode301_400;
+package com.study.leetcode301_400.LeetCode301_325;
 
 /**
  * @author jianghui

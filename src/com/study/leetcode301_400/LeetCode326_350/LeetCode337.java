@@ -1,4 +1,4 @@
-package com.study.leetcode301_400;
+package com.study.leetcode301_400.LeetCode326_350;
 
 import com.study.other.Trie;
 

@@ -1,4 +1,4 @@
-package com.study.leetcode301_400;
+package com.study.leetcode301_400.LeetCode301_325;
 
 /**
  * 有 n 个气球，编号为0 到 n - 1，每个气球上都标有一个数字，这些数字存在数组 nums 中。
