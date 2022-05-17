@@ -59,4 +59,48 @@ public class Interview0105 {
         }
         return true;
     }
+
+
+    public boolean oneEditAway2(String first, String second) {
+        int firstLength = first.length();
+        int secondLength = second.length();
+        if (Math.abs(firstLength - secondLength) > 2) {
+            return false;
+        }
+        if (firstLength == 0 || secondLength == 0) {
+            return true;
+        }
+        boolean edit = false;
+        boolean move = false;
+        int i = 0, j = 0;
+        for (; i < firstLength && j < secondLength; i++, j++) {
+            if (first.charAt(i) == second.charAt(j)) {
+                continue;
+            }
+            if (move || edit) {
+                return false;
+            }
+            if (firstLength > secondLength) {
+                if (i < firstLength - 1 && first.charAt(i + 1) == second.charAt(j)) {
+                    move = true;
+                    i++;
+                } else {
+                    edit = true;
+                }
+            } else if (secondLength > firstLength) {
+                if (j < secondLength - 1 && first.charAt(i) == second.charAt(j + 1)) {
+                    move = true;
+                    j++;
+                } else {
+                    edit = true;
+                }
+            } else {
+                edit = true;
+            }
+        }
+        if (i != firstLength || j != secondLength) {
+            return !edit && !move;
+        }
+        return true;
+    }
 }
