@@ -5,6 +5,10 @@ package com.study.offer;
  * @date 2022/5/17
  */
 public class offer51 {
+    public static void main(String[] args) {
+        int[] arr = {5, 2, 6, 1};
+        System.out.println(new offer51().reversePairs(arr));
+    }
     public int reversePairs(int[] nums) {
         int n = nums.length;
         if (n < 2) {
