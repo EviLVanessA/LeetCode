@@ -1,41 +1,61 @@
 package com.study.demo;
 
+import com.study.leetcode401_500.LeetCode450;
+
 /**
  * @author jianghui
  * @date 2022/5/24
  */
 public class Demo {
-    public static boolean searchMatrix(int[][] matrix, int target) {
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int left = 0, right = row - 1;
-        int pos = row - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (matrix[mid][0] <= target) {
-                pos = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
         }
-        left = 0;
-        right = col - 1;
-        int ans = col - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (matrix[pos][mid] >= target) {
-                ans = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
+
+        TreeNode(int val) {
+            this.val = val;
         }
-        return matrix[pos][ans] == target;
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 
-    public static void main(String[] args) {
-        int[][] m = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
-        System.out.println(searchMatrix(m, 3));
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val > key) {
+            //当前节点的值大于 目标值去左子树寻找
+            root.left = deleteNode(root.left, key);
+        } else if (root.val < key) {
+            //当前节点的值小于 目标值去右子树寻找
+            root.right = deleteNode(root.right, key);
+        } else {
+            //情况一可以和二三合并处理
+            //情况二
+            if (root.left == null) {
+                return root.right;
+            }
+            //情况三
+            if (root.right == null) {
+                return root.left;
+            }
+            //情况四
+            //找到右节点的左子树中为空的位置
+            TreeNode rightNode = root.right;
+            while (rightNode.left != null) {
+                rightNode = rightNode.left;
+            }
+            rightNode.left = root.left;
+            root = root.right;
+        }
+        return root;
     }
+
 }
