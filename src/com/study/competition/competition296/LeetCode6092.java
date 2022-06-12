@@ -1,4 +1,4 @@
-package com.study.LeetCode1801_1900;
+package com.study.competition.competition296;
 
 import java.util.HashMap;
 import java.util.Map;

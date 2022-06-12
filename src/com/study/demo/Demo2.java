@@ -6,5 +6,4 @@ package com.study.demo;
  */
 public class Demo2 {
     
-
 }

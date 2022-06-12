@@ -1,7 +1,5 @@
 package com.study.LeetCode601_700;
 
-import com.study.LeetCode1801_1900.LeetCode6091;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
  */
 public class LeetCode658 {
     public static void main(String[] args) {
-        System.out.println(new LeetCode658().findClosestElements(new int[]{1, 2, 3, 4, 5}, 4, -1));
+        System.out.println(new LeetCode658().findClosestElements(new int[]{1, 2, 3, 4, 5}, 4, 3));
     }
 
     public List<Integer> findClosestElements(int[] arr, int k, int x) {

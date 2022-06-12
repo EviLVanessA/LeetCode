@@ -1,4 +1,4 @@
-package com.study.LeetCode1801_1900;
+package com.study.competition.competition296;
 
 /**
  * @author jianghui
