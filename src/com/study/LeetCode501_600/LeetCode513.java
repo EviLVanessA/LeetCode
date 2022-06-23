@@ -36,6 +36,7 @@ public class LeetCode513 {
         queue.offer(root);
         int ans = 0;
         while (!queue.isEmpty()){
+            //当前层的所有结点
             int curSize = queue.size();
             for (int i = 0; i < curSize; i++) {
                 TreeNode curNode = queue.poll();
@@ -45,11 +46,35 @@ public class LeetCode513 {
                 if (curNode.right != null){
                     queue.offer(curNode.right);
                 }
+                //第一个结点
                 if (i == 0){
                     ans = curNode.val;
                 }
             }
         }
         return ans;
+    }
+
+    private int ans = 0;
+    private int maxHeight = 0;
+
+    public int findBottomLeftValue2(TreeNode root) {
+        dfs(root, 0);
+        return ans;
+    }
+
+    public void dfs(TreeNode root, int height) {
+        if (root == null) {
+            return;
+        }
+        //深度+1
+        height++;
+        dfs(root.left, height);
+        dfs(root.right, height);
+        //当前深度大于目前最大深度 也就是记录当前深度（层）的第一个左节点
+        if (height > maxHeight) {
+            maxHeight = height;
+            ans = root.val;
+        }
     }
 }
