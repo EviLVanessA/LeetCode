@@ -151,12 +151,13 @@ public class SegmentTree {
         int[] nums = {1, 2, 3, 4, 5, 6, 7, 8};
         SegmentTree segmentTree = new SegmentTree(nums);
         segmentTree.build(1, 1, 8);
-        System.out.println(segmentTree.query(1, 3, 5));
-        segmentTree.update(1, 3, 5, 2);
-        System.out.println(segmentTree.query(1, 3, 5));
-        segmentTree.update(1, 3, 5, 1);
-        System.out.println(segmentTree.query(1, 3, 5));
+        System.out.println(segmentTree.query(1, 5, 8));
+        segmentTree.update(1, 5, 8, 2);
+        System.out.println(segmentTree.query(1, 5, 8));
+        segmentTree.update(1, 5, 8, 1);
+        segmentTree.update(1, 5, 8, 1);
+        segmentTree.update(1, 5, 8, 1);
+        System.out.println(segmentTree.query(1, 5, 8));
 
     }
-
 }
