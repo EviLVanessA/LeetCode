@@ -48,4 +48,8 @@ public class LeetCode741 {
         }
         return Math.max(dp[n - 1][n - 1][2 * n - 2], 0);
     }
+
+    public static void main(String[] args) {
+        System.out.println(new LeetCode741().cherryPickup(new int[][]{{0, 1, -1}, {1, 0, -1}, {1, 1, 1}}));
+    }
 }
