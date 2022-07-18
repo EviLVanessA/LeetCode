@@ -6,11 +6,16 @@ package com.study.LeetCode701_800;
  */
 public class LeetCode749 {
     int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    int curWall = 0;
+    int rows;
+    int cols;
 
     public int containVirus(int[][] grid) {
+        rows = grid.length;
+        cols = grid[0].length;
         int result = 0;
         while (true) {
-            int walls = process(grid);
+            int walls = getMaxAreaNeedWalls(grid);
             if (walls == 0) {
                 break;
             }
@@ -19,38 +24,36 @@ public class LeetCode749 {
         return result;
     }
 
-    //对整个场景进行业务逻辑梳理
-    private int process(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        // maxArea 是最大面积，res是对应的墙
-        int maxArea = 0, res = 0, color = -1, targetX = -1, targetY = -1;
+    private int getMaxAreaNeedWalls(int[][] grid) {
+        //maxArea代表最大的感染区,ans代表需要修的墙的数量,
+        //targetX、targetY表示此区域的DFS开始的坐标
+        //state表示当前区域要修建墙的状态,如果没有修过,需要给maxArea+1,修过的话，只加墙的数量,不加maxArea
+        //并且每个区域的state都是不一样的，互相不能影响 DFS完给state--
+        int maxArea = 0, ans = 0, targetX = -1, targetY = -1, state = -3;
         //用一个数组来装当前这个点的状态
         int[][] visited = new int[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (grid[i][j] == 1 && visited[i][j] == 0) {
-                    Wall wall = new Wall();
-                    wall.walls = 0;
-                    int curMaxArea = dfs(grid, visited, i, j, color, wall);
+                    curWall = 0;
+                    int curMaxArea = dfs(grid, visited, i, j, state);
                     if (curMaxArea > maxArea) {
                         maxArea = curMaxArea;
-                        res = wall.walls;
+                        ans = curWall;
                         targetX = i;
                         targetY = j;
                     }
-                    color--;
+                    state--;
                 }
             }
         }
-        //修墙，将目标区域设置为未活动
         if (targetX == -1) {
             return 0;
         }
-        buildWall(grid, targetX, targetY);
-        //另一块传播病毒
-        //spread(grid,visited,targetX,targetY);
+        //将活跃的病毒改为死亡状态
+        modifyDead(grid, targetX, targetY);
         visited = new int[rows][cols];
+        //病毒扩散
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (grid[i][j] == 1 && visited[i][j] == 0) {
@@ -58,72 +61,59 @@ public class LeetCode749 {
                 }
             }
         }
-        return res;
-
+        return ans;
     }
 
-    private void spread(int[][] grid, int[][] stateArray, int row, int col) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        if (row < 0 || row >= rows || col < 0 || col >= cols || stateArray[row][col] == 1) {
-            return;
-        }
-        if (grid[row][col] == 0) {
-            grid[row][col] = 1;
-            stateArray[row][col] = 1;
-        } else if (grid[row][col] == 1) {
-            stateArray[row][col] = 1;
-            int[] dir = {-1, 0, 1, 0, -1};
-            for (int i = 0; i < 4; i++) {
-                spread(grid, stateArray, row + dir[i], col + dir[i + 1]);
+    private void spread(int[][] grid, int[][] visited, int x, int y) {
+        visited[x][y] = 1;
+        for (int i = 0; i < 4; i++) {
+            int newX = x + dirs[i][0];
+            int newY = y + dirs[i][1];
+            if (newX >= 0 && newX < rows && newY >= 0 && newY < cols
+                    && visited[newX][newY] == 0) {
+                //扩散区域
+                if (grid[newX][newY] == 0) {
+                    grid[newX][newY] = 1;
+                    visited[newX][newY] = 1;
+                } else if (grid[newX][newY] == 1) {
+                    spread(grid, visited, newX, newY);
+                }
             }
         }
     }
 
-    private void buildWall(int[][] grid, int x, int y) {
-        int rows = grid.length;
-        int cols = grid[0].length;
+    private void modifyDead(int[][] grid, int x, int y) {
         grid[x][y] = -2;
         for (int i = 0; i < 4; i++) {
             int newX = x + dirs[i][0];
             int newY = y + dirs[i][1];
             if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && grid[newX][newY] == 1) {
-                buildWall(grid, newX, newY);
+                modifyDead(grid, newX, newY);
             }
         }
     }
 
-    private int dfs(int[][] grid, int[][] visited, int x, int y, int color, Wall wall) {
-        int rows = grid.length;
-        int cols = grid[0].length;
+    private int dfs(int[][] grid, int[][] visited, int x, int y, int state) {
         int curArea = 0;
+        visited[x][y] = 1;
         for (int i = 0; i < 4; i++) {
             int newX = x + dirs[i][0];
             int newY = y + dirs[i][1];
             if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && visited[newX][newY] != 1) {
                 //不是病毒
                 if (grid[newX][newY] == 0) {
-                    wall.walls++;
-                    if (visited[newX][newY] != -1) {
+                    curWall++;
+                    if (visited[newX][newY] != state) {
                         curArea++;
-                        visited[newX][newY] = -1;
+                        visited[newX][newY] = state;
                     }
-                } else {
-                    //是病毒
-                    visited[newX][newY] = 1;
-                    curArea += dfs(grid, visited, newX, newY, color, wall);
+                } else if (grid[newX][newY] == 1) {
+                    //是存活病毒
+                    curArea += dfs(grid, visited, newX, newY, state);
                 }
             }
         }
         return curArea;
     }
 
-    class Wall {
-        public int walls;
-
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new LeetCode749().containVirus(new int[][]{{0, 1, 0, 0, 0, 0, 0, 1}, {0, 1, 0, 0, 0, 0, 0, 1}, {0, 0, 0, 0, 0, 0, 0, 1}, {0, 0, 0, 0, 0, 0, 0, 0}}));
-    }
 }
