@@ -29,4 +29,14 @@ public class LeetCode332 {
         }
         ans.add(from);
     }
+
+    public static void main(String[] args) {
+        List<List<String>> tickets = new ArrayList<>();
+        tickets.add(Arrays.asList("JFK","SFO"));
+        tickets.add(Arrays.asList("JFK","ATL"));
+        tickets.add(Arrays.asList("SFO","ATL"));
+        tickets.add(Arrays.asList("ATL","JFK"));
+        tickets.add(Arrays.asList("ATL","SFO"));
+        System.out.println(new LeetCode332().findItinerary(tickets));
+    }
 }
