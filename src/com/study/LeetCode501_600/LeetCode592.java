@@ -34,7 +34,7 @@ public class LeetCode592 {
             d1 = d1 * d2;
         }
         if (n1 != 0) {
-            long gcd = Math.abs(d1 > n1 ? gcd(d1, n1) : gcd(n1, d1));
+            long gcd = Math.abs(gcd(d1, n1));
             d1 = d1 / gcd;
             n1 = n1 / gcd;
         } else {
