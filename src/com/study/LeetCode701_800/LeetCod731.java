@@ -1,5 +1,6 @@
 package com.study.LeetCode701_800;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -35,19 +36,18 @@ class MyCalendarTwo {
         map.put(start, map.getOrDefault(start, 0) + 1);
         map.put(end, map.getOrDefault(end, 0) - 1);
         //恢复所有的值 采取了逆向恢复 和正向恢复都一样
-        for (Integer key : map.keySet()) {
-            temp = temp - map.get(key);
-            if (key >= start && key <= end) {
-                ans = Math.max(ans, temp);
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            temp = temp - entry.getValue();
+            ans = Math.max(ans, temp);
+            if (ans > 2) {
+                map.put(start, map.getOrDefault(start, 0) - 1);
+                map.put(end, map.getOrDefault(end, 0) + 1);
+                return false;
             }
-        }
-        if (ans > 2) {
-            map.put(start, map.getOrDefault(start, 0) - 1);
-            map.put(end, map.getOrDefault(end, 0) + 1);
-            return false;
         }
         return true;
     }
+
 }
 
 
