@@ -21,21 +21,29 @@ public class LeetCode623 {
         TreeNode(int x) {
             val = x;
         }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 
-    public TreeNode addOneRow(TreeNode root, int v, int d) {
-        if (d == 1) {
-            TreeNode node = new TreeNode(v);
+    public TreeNode addOneRow(TreeNode root, int val, int depth) {
+        //插入第一层 直接将root变为左结点
+        if (depth == 1) {
+            TreeNode node = new TreeNode(val);
             node.left = root;
             return node;
         }
         Queue<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
-        int depth = 1;
-        while (depth < d - 1) {
+        int curDepth = 1;
+        //找到插入的上一层
+        while (curDepth < depth - 1) {
             Queue<TreeNode> temp = new ArrayDeque<>();
             while (!queue.isEmpty()) {
-                TreeNode node = queue.remove();
+                TreeNode node = queue.poll();
                 if (node.left != null) {
                     temp.add(node.left);
                 }
@@ -44,16 +52,36 @@ public class LeetCode623 {
                 }
             }
             queue = temp;
-            depth++;
+            curDepth++;
         }
-        while (!queue.isEmpty()){
-            TreeNode node = queue.remove();
-            TreeNode temp = node.left;
-            node.left = new TreeNode(v);
-            node.left.left = temp;
-            temp = node.right;
-            node.right = new TreeNode(v);
-            node.right.right = temp;
+        //上一层的每个结点都在队列中，我们依次将他们的子节点的父节点变为插入的结点
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            //左结点
+            node.left = new TreeNode(val, node.left, null);
+            //右节点
+            node.right = new TreeNode(val, null, node.right);
+        }
+        return root;
+    }
+
+    public TreeNode addOneRow2(TreeNode root, int val, int depth) {
+        if (root == null) {
+            return null;
+        }
+        if (depth == 0) {
+            TreeNode node = new TreeNode(val);
+            node.right = root;
+            return node;
+        }
+        if (depth == 1) {
+            TreeNode node = new TreeNode(val);
+            node.left = root;
+            return node;
+        }
+        if (depth > 1) {
+            root.left = addOneRow(root.left, val, depth > 2 ? depth - 1 : 1);
+            root.right = addOneRow(root.right, val, depth > 2 ? depth - 1 : 0);
         }
         return root;
     }
