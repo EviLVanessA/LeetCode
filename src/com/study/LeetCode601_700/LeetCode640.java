@@ -91,13 +91,18 @@ public class LeetCode640 {
         }
     }
 
+    //存放x的个数
     private int xSum;
+    //存放值
     private int valSum;
 
     public String solveEquation2(String equation) {
-        String[] split = equation.split("=");
-        parseString(split[0], 1);
-        parseString(split[1], -1);
+        //按照等号分割
+        String[] str = equation.split("=");
+        //解析左边表达式
+        parseString(str[0], 1);
+        //解析右边表达式
+        parseString(str[1], -1);
         if (xSum == 0) {
             return valSum == 0 ? "Infinite solutions" : "No solution";
         } else {
@@ -105,10 +110,17 @@ public class LeetCode640 {
         }
     }
 
+    /**
+     * 解析表达式
+     *
+     * @param equation 表达式
+     * @param sign     符号 左边表达式为1 右边表达式为-1
+     */
     public void parseString(String equation, int sign) {
         int i = 0, curSign = 1;
         while (i < equation.length()) {
             char c = equation.charAt(i);
+            //分类讨论
             if (c == 'x') {
                 if (sign * curSign == 1) {
                     xSum++;
@@ -120,12 +132,14 @@ public class LeetCode640 {
                 curSign = c == '-' ? -1 : 1;
                 i++;
             } else {
+                //数字
                 int num = 0;
                 while (i < equation.length() && Character.isDigit(equation.charAt(i))) {
                     num = num * 10 + equation.charAt(i) - '0';
                     i++;
                 }
                 num = num * sign * curSign;
+                //数字后边跟的是不是x
                 if (i < equation.length() && equation.charAt(i) == 'x') {
                     xSum += num;
                     i++;
