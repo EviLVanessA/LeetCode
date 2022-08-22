@@ -20,6 +20,7 @@ public class LeetCode655 {
     }
 
     public List<List<String>> printTree(TreeNode root) {
+        //获取高度
         int height = getHeight(root);
         String[][] ans = new String[height][(1 << height) - 1];
         for (String[] arr : ans) {
@@ -33,6 +34,15 @@ public class LeetCode655 {
         return res;
     }
 
+    /**
+     * 填充数组
+     *
+     * @param ans  数组
+     * @param root 根节点
+     * @param i    第几行
+     * @param l    左节点
+     * @param r    右节点
+     */
     private void fill(String[][] ans, TreeNode root, int i, int l, int r) {
         if (root == null) {
             return;
@@ -42,6 +52,12 @@ public class LeetCode655 {
         fill(ans, root.right, i + 1, (l + r + 1) / 2, r);
     }
 
+    /**
+     * 获取树的高度
+     *
+     * @param root
+     * @return
+     */
     private int getHeight(TreeNode root) {
         if (root == null) {
             return 0;
