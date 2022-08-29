@@ -50,4 +50,51 @@ public class LeetCode658 {
         Collections.sort(res);
         return res;
     }
+
+
+    public List<Integer> findClosestElements2(int[] arr, int k, int x) {
+        int size = arr.length;
+        int left = 0;
+        int right = size - k;
+        while (left < right) {
+            // int mid = left + (right - left) / 2;
+            int mid = (left + right) >>> 1;
+            // 尝试从长度为 k + 1 的连续子区间删除一个元素
+            // 从而定位左区间端点的边界值
+            if (x - arr[mid] > arr[mid + k] - x) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            res.add(arr[i]);
+        }
+        return res;
+    }
+
+    public List<Integer> findClosestElements3(int[] arr, int k, int x) {
+        //数组长度
+        int n = arr.length;
+        //左右指针
+        int left = 0, right = n - 1;
+        //要删除的个数
+        int delCnt = n - k;
+        while (delCnt > 0) {
+            if (x - arr[left] <= arr[right] - x) {
+                right--;
+            } else {
+                left++;
+            }
+            delCnt--;
+        }
+        //从左到右添加元素
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            ans.add(arr[i]);
+        }
+        return ans;
+    }
 }
