@@ -24,10 +24,9 @@ public class LeetCode687 {
         }
     }
 
-    int ans;
+    int ans = 0;
 
     public int longestUnivaluePath(TreeNode root) {
-        ans = 0;
         dfs(root);
         return ans;
     }
@@ -36,16 +35,17 @@ public class LeetCode687 {
         if (root == null) {
             return 0;
         }
+        int leftPath = 0;
+        int rightPath = 0;
         int left = dfs(root.left);
         int right = dfs(root.right);
-        int arrowLeft = 0, arrowRight = 0;
-        if (root.left != null && root.left.val == root.val) {
-            arrowLeft += left + 1;
+        if (root.left != null && root.val == root.left.val) {
+            leftPath += left + 1;
         }
-        if (root.right != null && root.right.val == root.val) {
-            arrowRight += right + 1;
+        if (root.right != null && root.val == root.right.val) {
+            rightPath += right + 1;
         }
-        ans = Math.max(ans, arrowLeft + arrowRight);
-        return Math.max(arrowLeft, arrowRight);
+        ans = Math.max(ans, leftPath + rightPath);
+        return Math.max(leftPath, rightPath);
     }
 }
