@@ -12,7 +12,7 @@ import java.util.Map;
  * @date 2021-02-19 14:10
  */
 public class LeetCode652 {
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -29,61 +29,75 @@ public class LeetCode652 {
             this.left = left;
             this.right = right;
         }
-    }
 
-    Map<String, Integer> conut;
-
-
-    public List<TreeNode> findDuplicateSubtrees2(TreeNode root) {
-        conut = new HashMap<>();
-        ans = new ArrayList<>();
-        collect(root);
-        return ans;
-    }
-
-    /**
-     * 进行序列化
-     *
-     * @param root
-     * @return
-     */
-    private String collect(TreeNode root) {
-        if (root == null) {
-            return "#";
+        @Override
+        public String toString() {
+            return val + "";
         }
-        String serial = root.val + "," + collect(root.left) + "," + collect(root.right);
-        conut.put(serial, conut.getOrDefault(serial, 0) + 1);
-        if (conut.get(serial) == 2) {
-            ans.add(root);
-        }
-        return serial;
     }
 
+//    Map<String, Integer> conut;
+//    List<TreeNode> ans;
+//
+//    public List<TreeNode> findDuplicateSubtrees2(TreeNode root) {
+//        conut = new HashMap<>();
+//        ans = new ArrayList<>();
+//        dfs(root);
+//        return ans;
+//    }
+//
+//    /**
+//     * 进行序列化
+//     *
+//     * @param root
+//     * @return
+//     */
+//    private String dfs(TreeNode root) {
+//        if (root == null) {
+//            return "#";
+//        }
+//        String serial = root.val + "," + dfs(root.left) + "," + dfs(root.right);
+//        conut.put(serial, conut.getOrDefault(serial, 0) + 1);
+//        if (conut.get(serial) == 2) {
+//            ans.add(root);
+//        }
+//        return serial;
+//    }
 
-    int t;
-    Map<String, Integer> trees;
-    Map<Integer, Integer> conut2;
-    List<TreeNode> ans;
+
+    private int id;
+    private Map<String, Integer> trees;
+    private Map<Integer, Integer> count;
+    private List<TreeNode> ans;
 
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        t = 1;
+        id = 1;
         trees = new HashMap<>();
-        conut2 = new HashMap<>();
+        count = new HashMap<>();
         ans = new ArrayList<>();
-        lookup(root);
+        dfs(root);
         return ans;
     }
 
-    private int lookup(TreeNode root) {
+    private int dfs(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        String serial = root.val + "," + lookup(root.left) + "," + lookup(root.right);
-        int uid = trees.computeIfAbsent(serial, key -> t++);
-        conut2.put(uid, conut2.getOrDefault(uid, 0) + 1);
-        if (conut2.get(uid) == 2) {
+        String serial = root.val + "," + dfs(root.left) + "," + dfs(root.right);
+        int uid = trees.computeIfAbsent(serial, key -> id++);
+        count.put(uid, count.getOrDefault(uid, 0) + 1);
+        if (count.get(uid) == 2) {
             ans.add(root);
         }
         return uid;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(2);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(2);
+        root.left.left = new TreeNode(3);
+        root.right.left = new TreeNode(3);
+        System.out.println(new LeetCode652().findDuplicateSubtrees(root));
     }
 }
