@@ -38,13 +38,16 @@ public class LeetCode940 {
     public int distinctSubseqII2(String s) {
         int mod = (int) 1e9 + 7;
         int n = s.length();
+        //之前新增的个数
         int[] preCount = new int[26];
         int curAns = 1;
         char[] chs = s.toCharArray();
         for (int i = 0; i < n; i++) {
+            //新增的个数
             int newCount = curAns;
-            preCount[chs[i] - 'a'] = newCount;
+            //当前序列的个数 = 之前的 + 新增的 - 重复的
             curAns = ((curAns + newCount) % mod - preCount[chs[i] - 'a'] % mod + mod) % mod;
+            preCount[chs[i] - 'a'] = newCount;
         }
         return curAns - 1;
     }
